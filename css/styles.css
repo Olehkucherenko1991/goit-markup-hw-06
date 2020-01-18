@@ -6,6 +6,7 @@
   --product-text-style: 'Roboto', sans-serif;
   --primary-text-color: #555252;
   --primary-text-style: 'Open Sans', sans-serif;
+  --timing-fn: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html {
@@ -72,6 +73,7 @@ body {
   font-size: 14px;
   font-family: 'Open Sans', sans-serif;
   font-weight: lighter;
+  transition-timing-function: var(--timing-fn);
 }
 
 .user-control .link:hover,
@@ -93,6 +95,7 @@ body {
   font-size: 14px;
   font-family: 'Open Sans', sans-serif;
   font-weight: lighter;
+  transition-timing-function: var(--timing-fn);
 }
 
 .feedback:hover {
@@ -149,6 +152,7 @@ body {
   font-weight: lighter;
   color: #555252;
   margin: 0px;
+  transition-timing-function: var(--timing-fn);
 }
 
 .logo:hover,
@@ -159,6 +163,7 @@ body {
 .logo .logo-disign {
   font-weight: bold;
   color: #1abc9c;
+  transition-timing-function: var(--timing-fn);
 }
 
 .logo .logo-disign:focus,
@@ -187,6 +192,7 @@ body {
   font-family: var(--navigation-text-style);
   color: var(--navigation-color);
   font-weight: bold;
+  transition-timing-function: var(--timing-fn);
 }
 
 .site-navigation .navigation:hover,
@@ -265,6 +271,7 @@ body {
   color: #ffffff;
   border-radius: 2px;
   transition: 0.5s all ease;
+  transition-timing-function: var(--timing-fn);
 }
 
 .button-hero:hover {
@@ -427,15 +434,18 @@ body {
   color: #ffffff;
   background-color: #323232;
   text-transform: uppercase;
+  transition-timing-function: var(--timing-fn);
   cursor: pointer;
 }
 
 .featured-list:hover .text-description {
   background-color: #1abc9c;
+  transition-timing-function: var(--timing-fn);
 }
 
 .featured-list:hover .price-description {
   background-color: #7fd9c7;
+  transition-timing-function: var(--timing-fn);
 }
 
 .featured-list .overlay::before {
@@ -447,11 +457,16 @@ body {
   height: 100%;
   content: '';
   background-color: rgba(0, 0, 0, 0.5);
+  transition-timing-function: var(--timing-fn);
   cursor: pointer;
 }
 
 .overlay:hover::before {
   display: flex;
+  box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.9);
+  transition-timing-function: var(--timing-fn);
+  animation-name: shadowBlock;
+  animation-duration: 250ms;
 }
 
 .price-description {
@@ -467,6 +482,7 @@ body {
   cursor: pointer;
   font-family: var(--product-text-style);
   font-weight: bold;
+  transition-timing-function: var(--timing-fn);
 }
 
 .overlay {
@@ -476,10 +492,22 @@ body {
   align-items: center;
 }
 
+.actions:hover {
+  opacity: 1;
+  animation-name: buttonBlock;
+  animation-duration: 250ms;
+  animation-delay: 250ms;
+  animation-fill-mode: backwards;
+}
+
 .actions {
   position: absolute;
   display: flex;
   flex-wrap: wrap;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }
 
 .actions .button {
@@ -488,24 +516,73 @@ body {
   height: 55px;
   padding: 0;
   margin: 0;
+  border: 0;
+  background-color: transparent;
   margin-left: 7px;
+  margin-top: 60px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   cursor: pointer;
+}
+
+.actions .button.arrow-icon {
+  border: 1px solid #ffffff;
+  transition-timing-function: var(--timing-fn);
+}
+
+.actions .button.addcard-icon {
+  display: flex;
+  justify-content: center;
+  width: 180px;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 75px;
+  margin-left: 45px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: var(--product-text-style);
+  text-transform: uppercase;
+  transition-timing-function: var(--timing-fn);
+  cursor: pointer;
   overflow: hidden;
 }
+
+.cart-icon::before {
+  display: inline-block;
+  margin-right: 15px;
+  content: '';
+  background-image: url(../images/icons/cart.png);
+  width: 30px;
+  height: 27px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.button:hover,
+.button:focus {
+  background-color: #19bb9b;
+  transition-timing-function: var(--timing-fn);
+}
+
+.button.addcard-icon:hover,
+.button.addcard-icon:focus {
+  background-color: #323232;
+  transition-timing-function: var(--timing-fn);
+}
+
+.actions .button:nth-child(1) {
+  margin-left: 45px;
+}
+
 .actions .button.like-icon {
   background-image: url(../images/icons/like.png);
 }
 
-.button.like-icon:nth-child(n + 1) {
-  margin-left: 50px;
-}
-
-.actions .button:nth-child(n + 3) {
-  margin-bottom: 7px;
-}
 .actions .button.arrow-icon {
   background-image: url(../images/icons/arrow.png);
 }
@@ -514,23 +591,27 @@ body {
   background-image: url(../images/icons/time.png);
 }
 
-.actions .button.addcard-icon {
-  background-image: url(../images/icons/add.png);
-  display: inline-block;
-  width: 178px;
-  height: 50px;
-  padding: 0;
-  margin: 0;
-  border: 1px solid #ffffff;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  cursor: pointer;
-  overflow: hidden;
+/* Animation card */
+
+@keyframes buttonBlock {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
-.button.addcard-icon:nth-last-child(-n + 1) {
-  margin-left: 50px;
+@keyframes shadowBlock {
+  0% {
+    opacity: 0;
+    transform: translateY(+30%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
 }
 
 /* News section */
@@ -610,6 +691,7 @@ body {
   color: #ffffff;
   border-radius: 4px;
   transition: 0.5s all ease;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .button-article:hover {
